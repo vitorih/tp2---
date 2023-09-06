@@ -17,6 +17,7 @@ app.post('/home', function(req,res){
   } )
  
 })
+
 app.get('/lista', function(req, res) {
    fs.readdir(__dirname, (err,files)=>{
      var dados = files.filter(file => file.includes('@') && file.includes('.json'))
