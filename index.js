@@ -39,6 +39,10 @@ app.get('/apagar/:email', (req,res)=>{
    }
 })
 
+app.use((req, res, next) => {
+    res.send({erro: true, msg: "Rota não definida no servidor."})
+});
+
 app.listen(9090, () =>{
    console.log("realizou-se :)")
 })
