@@ -46,3 +46,5 @@ app.use((req, res, next) => {
 app.listen(9090, () =>{
    console.log("realizou-se :)")
 })
+
+console.log(process.env.NOME);
