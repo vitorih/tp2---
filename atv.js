@@ -15,7 +15,14 @@ if(process.env.OMG === "PROD"){
 
 const modelodeUsuario = mongoose.model('contas', new mongoose.Schema({
     email: String,
-    password: String
+    nomeCompleto: String,
+    datadenascimento: String,
+    cpf: String,
+    admin: Boolean
+}))
+const modelodeProduto = mongoose.model('produtos', new mongoose.Schema({
+    nomedoProduto: String,
+    descrição: String,
 }))
 
 
@@ -23,14 +30,14 @@ mongoose.connect('mongodb://127.0.0.1:27017/haha') // process.env.URL
  .then(()=>{
 
 app.post('/login/', async (req,res)=>{
-    const usuarioEncontrado= await modelodeUsuario.findOne({email: req.body.email, cpf: req.body.cpf})
+    const usuarioEncontrado= await modelodeUsuario.findOne({email: req.body.email, cpf: req.body.cpf, admin: req.body.admin})
     if(!usuarioEncontrado){
         return res.send('usuário não encontrado')
     }
     res.send(usuarioEncontrado)
 })
 app.post('/getProdutos/', async (req,res)=>{
-    const produtoEncontrado = await modelodeUsuario.findOne({colarCoraçãoEternityemOuroRoséR$249000: req.body.colarCoraçãoEternityemOuroRoséR$249000, pendentesRemovíveisPraPérolaseToáziosR$139000: req.body.pendentesRemovíveisPraPérolaseToáziosRS139000, meiaAliançaEterniyemOuroRosé18KeDiamantesR$415000: req.meiaAliançaEterniyemOuroRosé18KeDiamantesR, anelLefeTopázioAzulR$29000: req.body. anelLefeTopázioAzulR$2900 })
+    const produtoEncontrado = await modelodeUsuario.findOne({nomedoProduto: req.body.nomedoProduto, descricao: req.body.descricao})
     if(!produtoEncontrado){
         return res.send('produto não encontrado')
     }
@@ -38,14 +45,18 @@ app.post('/getProdutos/', async (req,res)=>{
 })
    
 app.post('/cadastro',async (req,res) =>{
-    const usuarioCriado = await modelodeUsuario.create({email: req.body.email, nomeCompleto: req.body.nomeCompleto, datadenascimento: req.body.datadenascimento, cpf: req.body.cpf, senha: req.body.senha, endereço: req.body.endereço})
+    const usuarioCriado = await modelodeUsuario.create({email: req.body.email, nomeCompleto: req.body.nomeCompleto, datadenascimento: req.body.datadenascimento, cpf: req.body.cpf, senha: req.body.senha, endereço: req.body.endereço, admin: req.body.admin})
     res.send(usuarioCriado)
 })
 
 app.post('/postprodutosAdmin',async (req,res) =>{
-    const usuarioCriado = await modelodeUsuario.create({colarCoraçãoEternityemOuroRoséR$249000: req.body.colarCoraçãoEternityemOuroRoséR$249000, pendentesRemovíveisPraPérolaseToáziosR$139000: req.body.pendentesRemovíveisPraPérolaseToáziosRS139000, meiaAliançaEterniyemOuroRosé18KeDiamantesR$415000: req.meiaAliançaEterniyemOuroRosé18KeDiamantesR, anelLefeTopázioAzulR$29000: req.body. anelLefeTopázioAzulR$2900 })
+    const usuarioEncontrado= await modelodeUsuario.findOne({email: req.body.email, cpf: req.body.cpf})
+    if(usuarioEncontrado.admin === false){
+        return res.send('usuario não permitido (tem que ser admin)')
+    }
+
+    const usuarioCriado = await modelodeUsuario.create({nomedoProduto: req.body.nomedoProduto, descricao: req.body.descricao})
     res.send(usuarioCriado)
-    
 })
 
 
