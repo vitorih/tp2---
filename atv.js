@@ -23,21 +23,35 @@ const modelodeUsuario = mongoose.model('contas', new mongoose.Schema({
 mongoose.connect('mongodb://127.0.0.1:27017/haha') // process.env.URL
  .then(()=>{
 
-app.post('/get/', async (req,res)=>{
-    const usuarioEncontrado = await modelodeUsuario.findOne({email: req.body.email, password: req.body.password})
+app.post('/login/', async (req,res)=>{
+    const usuarioEncontrado= await modelodeUsuario.findOne({email: req.body.email, cpf: req.body.cpf})
     if(!usuarioEncontrado){
-        return res.send('conta nn existe')
+        return res.send('usuário não encontrado')
     }
     res.send(usuarioEncontrado)
 })
-  
-app.post('/post',async (req,res) =>{
-    const usuarioCriado = await modelodeUsuario.create({email: req.body.email, password: req.body.password})
+app.post('/getProdutos/', async (req,res)=>{
+    const produtoEncontrado = await modelodeUsuario.findOne({colarCoraçãoEternityemOuroRoséR$249000: req.body.colarCoraçãoEternityemOuroRoséR$249000, pendentesRemovíveisPraPérolaseToáziosR$139000: req.body.pendentesRemovíveisPraPérolaseToáziosRS139000, meiaAliançaEterniyemOuroRosé18KeDiamantesR$415000: req.meiaAliançaEterniyemOuroRosé18KeDiamantesR, anelLefeTopázioAzulR$29000: req.body. anelLefeTopázioAzulR$2900 })
+    if(!produtoEncontrado){
+        return res.send('produto não encontrado')
+    }
+    res.send(produtoEncontrado)
+})
+   
+app.post('/cadastro',async (req,res) =>{
+    const usuarioCriado = await modelodeUsuario.create({email: req.body.email, nomeCompleto: req.body.nomeCompleto, datadenascimento: req.body.datadenascimento, cpf: req.body.cpf, senha: req.body.senha, endereço: req.body.endereço})
     res.send(usuarioCriado)
 })
 
-app.put('/put', async (req,res)=>{
-    const usuarioAtualizado = await modelodeUsuario.findOneAndUpdate({email: req.body.email, password: req.body.password}, {email: req.body.newemail, password: req.body.newpassword})
+app.post('/postprodutosAdmin',async (req,res) =>{
+    const usuarioCriado = await modelodeUsuario.create({colarCoraçãoEternityemOuroRoséR$249000: req.body.colarCoraçãoEternityemOuroRoséR$249000, pendentesRemovíveisPraPérolaseToáziosR$139000: req.body.pendentesRemovíveisPraPérolaseToáziosRS139000, meiaAliançaEterniyemOuroRosé18KeDiamantesR$415000: req.meiaAliançaEterniyemOuroRosé18KeDiamantesR, anelLefeTopázioAzulR$29000: req.body. anelLefeTopázioAzulR$2900 })
+    res.send(usuarioCriado)
+    
+})
+
+
+app.put('/postatendimentoaocliente', async (req,res)=>{
+    const usuarioAtualizado = await modelodeUsuario.findOneAndUpdate({email: req.body.email, whatsapp: req.body.whatsapp, acessoapaginaMinhaConta: req.body.acessoapaginaMinhaConta })
     res.send({ message: "dados atualizados com sucesso!" })
 })
   
