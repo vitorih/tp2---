@@ -13,7 +13,6 @@ if(process.env.OMG === "PROD"){
     dotenv.config({path:'./config/.env.prod'})
 }
 
-
 const modelodeUsuario = mongoose.model('contas', new mongoose.Schema({
     email: String,
     password: String
